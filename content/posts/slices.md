@@ -69,7 +69,7 @@ https://golang.google.cn/blog/slices
 Slices are where the action is, but to use them well one must understand 
 exactly what they are and what they do。
 
-~~~ 切片是动作所在，但要很好地使用它们，必须准确了解它们是什么以及它们做什么。 ~~~ 
+~~ 切片是动作所在，但要很好地使用它们，必须准确了解它们是什么以及它们做什么。 ~~ 
 (此句翻译待定,仅供参考)
 
 切片是一种数据结构，描述了一个数组的连续部分，但不与切片变量本身存储在一起。
