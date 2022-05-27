@@ -1,1 +1,1 @@
-hugo server -D --port 428 --bind 0.0.0.0
+nohup hugo server --baseURL http://110.42.244.121/ --bind 0.0.0.0 > ./nohup.out 2>&1 &
