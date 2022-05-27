@@ -1,1 +1,3 @@
-.hugo*
+.hugo_build.lock
+.idea
+.vscode

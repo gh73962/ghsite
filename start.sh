@@ -1,1 +1,1 @@
-nohup hugo server --baseURL http://110.42.244.121/ --bind 0.0.0.0 > ./nohup.out 2>&1 &
+nohup hugo server > ./nohup.out 2>&1 &
