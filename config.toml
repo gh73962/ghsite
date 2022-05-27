@@ -850,7 +850,7 @@ enableEmoji = true
           disclaimer = ""
       [languages.en.params.social]
         Email = "gh73962@gmail.com"
-        RSS = true
+        RSS = false
 
   [languages.zh-cn]
     weight = 2
@@ -904,7 +904,7 @@ enableEmoji = true
         pre = "<i class='fab fa-github fa-fw' aria-hidden='true'></i>"
         post = ""
         name = ""
-        url = "https://github.com/dillonzq/LoveIt"
+        url = "https://github.com/gh73962"
         title = "GitHub"
     [languages.zh-cn.params]
       [languages.zh-cn.params.search]
