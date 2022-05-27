@@ -9,6 +9,9 @@ tags:
 - append
 summary: How Go arrays and slices work, and how to use copy and append.
 ---
+## 英文原文
+
+    https://golang.google.cn/blog/slices
 
 ## 介绍
 
