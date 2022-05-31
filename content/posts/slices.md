@@ -43,9 +43,9 @@ summary: How Go arrays and slices work, and how to use copy and append.
 数组在Go中并不常见，因为数组的大小是它类型的一部分，这个特性限制了他们的表现力
 
 这个声明
-
+```go
      var buffer [256]byte
-
+```
 声明了变量 `buffer`，它包含 256 个字节。
 `buffer` 的类型包括它的大小，`[256]byte`。
 具有 512 个字节的数组将是不同类型的 `[512]byte`。
@@ -79,21 +79,21 @@ exactly what they are and what they do。
 **一个切片不是一个数组**， 一个切片**描述**了一个数组的一部分。
 
 给定上一节中的 `buffer` 数组变量，我们可以创建一个切片，通过 _切片_ 数组来描述元素 100 到 150（准确地说是 100 到 149，含149）：
-
+```go
 	var slice []byte = buffer[100:150]
-
+```
 在这个代码段中，我们使用了完整的变量声明。 
 变量`slice`拥有类型`[]byte`，意为多个byte的切片， 
 并从一个`buffer`数组里面切分第100(包含)个元素至第150(不含)个元素而来。
 
 以下是更简洁的初始化语法， 在之前的声明上隐藏了声明类型:
-
+```go
 	var slice = buffer[100:150]
-
+```
 在函数内部，我们可以使用这种短声明的方式
-
+```go
 	slice := buffer[100:150]
-
+```
 那么这个切片变量到底是什么?
 
 你可以把切片当作一个拥有两个元素的数据结构，一个元素是长度， 一个元素是指针，
@@ -115,9 +115,9 @@ exactly what they are and what they do。
 并且元素指针的类型取决于元素的类型，但这这段代码展示出了这个机制设计理念。
 
 到目前为止，我们都是对数组进行切片，我们也可以对切片进行切片，如下:
-
+```go
 	slice2 := slice[5:10]
-
+```
 像前面这个操作，它创建了一个新的切片， 在这个例子中， 
 原始切片第5至第9之间的元素，同时也是之前原始数组第105至109之间的元素。
 
@@ -131,24 +131,24 @@ exactly what they are and what they do。
 注意这个header仍然指向同一个存储在`buffer`变量里的底层数组。
 
 我们也可以**重新切片**，也就是说， 切片一个切片， 并将结果存储回原切片
-
+```go
 	slice = slice[5:10]
-
+```
 `slice` 变量的`sliceHeader` 看起来就像`slice2` 变量的。
 
 你会看到重新切片被广泛应用，例如截断切片。 此语句删除切片的第一个和最后一个元素：
-
+```go
 	slice = slice[1:len(slice)-1]
-
+```
 [练习：写出 `sliceHeader` 结构在这个赋值之后的样子。]
 
 你会经常听到有经验的 Go 程序员谈论`slice header`，因为这确实是存储在切片变量中的内容。
 例如，当你调用一个将切片作为参数的函数（例如 [bytes.IndexRune](https://golang.google.cn/pkg/bytes/#IndexRune)）时，该header就是实际传递给函数。
 
 在这个调用中
-
+```go
 	slashPos := bytes.IndexRune(slice, '/')
-
+```
 `slice`参数传入`IndexRune`函数，实际上传入的是一个`slice header`
 
 `slice header` 中还有一个元素，我们将在后面讨论，
