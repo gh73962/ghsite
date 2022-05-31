@@ -100,7 +100,7 @@ exactly what they are and what they do。
 这个指针指向一个数组里的元素
 
 你这样想象它在底层是只有构建的:
-
+```go
 	type sliceHeader struct {
 		Length        int
 		ZerothElement *byte
@@ -110,7 +110,7 @@ exactly what they are and what they do。
 		Length:        50,
 		ZerothElement: &buffer[100],
 	}
-
+```
 当然，这只是一个例证。 尽管这段代码片段中的 `sliceHeader `结构对程序员是不可见的，
 并且元素指针的类型取决于元素的类型，但这这段代码展示出了这个机制设计理念。
 
@@ -122,12 +122,12 @@ exactly what they are and what they do。
 原始切片第5至第9之间的元素，同时也是之前原始数组第105至109之间的元素。
 
 变量`slice2`底层数据结构`sliceHeader`长这样:
-
+```go
 	slice2 := sliceHeader{
 		Length:        5,
 		ZerothElement: &buffer[105],
 	}
-
+```
 注意这个header仍然指向同一个存储在`buffer`变量里的底层数组。
 
 我们也可以**重新切片**，也就是说， 切片一个切片， 并将结果存储回原切片
