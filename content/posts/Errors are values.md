@@ -7,7 +7,7 @@ summary:
 ---
 
 ## 原文链接
-
+Author : Rob Pike
 https://go.dev/blog/errors-are-values
 
 ## 译文
