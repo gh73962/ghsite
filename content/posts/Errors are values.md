@@ -164,4 +164,6 @@ if b.Flush() != nil {
 
 使用Go语言来简化你的错误处理。        
 
-但是要记住: 不论在写什么功能，一定要检查你的error。        
+但是要记住: 不论在写什么功能，一定要检查你的error !        
+
+最后, 如果你想看我和 @jxck_ 交流的过程, 和一些他记录的语音, 可以查看[他的博客](https://jxck.hatenablog.com/entry/golang-error-handling-lesson-by-rob-pike).
