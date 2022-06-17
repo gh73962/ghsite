@@ -15,7 +15,7 @@ summary: How Go arrays and slices work, and how to use copy and append.
 
 原文地址: https://golang.google.cn/blog/slices
 
-## 介绍
+## 简介
 
 程序编程语言最常见的特征之一是数组的概念。
 数组看起来很简单，但在将它们添加到语言时必须回答许多问题，例如：
