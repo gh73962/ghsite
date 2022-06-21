@@ -7,7 +7,7 @@ tags:
 - string
 - copy
 - append
-summary: How Go arrays and slices work, and how to use copy and append.
+summary: Go 数组和切片是如何工作的，以及如何使用copy和append。
 ---
 ## 英文原文
 
