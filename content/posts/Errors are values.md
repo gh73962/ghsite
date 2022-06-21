@@ -3,7 +3,7 @@ title: "译: Errors are values"
 date: 2022-03-26
 tags:
 - error
-summary: 
+summary: Idioms and patterns for handling errors in Go.
 ---
 
 ## 原文链接
