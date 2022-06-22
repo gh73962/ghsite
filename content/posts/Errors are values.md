@@ -6,10 +6,10 @@ tags:
 summary: Go 中处理错误的习惯用法和模式。
 ---
 
-## 原文链接
-Author : Rob Pike       
+## 原文
+Author : Rob Pike
 
-Link: https://go.dev/blog/errors-are-values     
+Link : https://golang.google.cn/blog/errors-are-values
 
 ## 译文
 

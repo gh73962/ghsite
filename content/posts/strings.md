@@ -8,15 +8,14 @@ tags:
 - characters
 summary: 字符串在 Go 中是如何工作的，以及如何使用它们。
 ---
-## 英文原文
+## 原文
 
-作者: Rob Pike
+Author : Rob Pike
 
-原文地址: https://go.dev/blog/strings
-
+Link : https://golang.google.cn/blog/strings
 ## 简介
 
-[上篇博客](https://blog.golang.org/slices)阐述了切片在Go中如何工作，并列举了很多例子来说明它的机制。
+[上篇博客](https://golang.google.cn/blog/slices)阐述了切片在Go中如何工作，并列举了很多例子来说明它的机制。
 基于这个背景，我们将在这篇博客中讨论Go字符串。
 首先，对于一篇博客来说字符串这个话题似乎太简单了，但要用好字符串不仅要理解字符串是怎么工作的，
 还要掌握一个字节(byte)，一个字符(character)，一个rune的区别，
@@ -36,7 +35,7 @@ Unicode和UTF-8的区别，
 让我们先从一些基础的东西开始。
 
 在Go中，字符串实际上是只读的字节切片。
-如果你完全不确定字节切片是什么以及它是如何工作的，请阅读[上篇博客](https://blog.golang.org/slices)；
+如果你完全不确定字节切片是什么以及它是如何工作的，请阅读[上篇博客](https://golang.google.cn/blog/slices)；
 现在我们假设你有这些知识。
 
 重要的是要预先声明。

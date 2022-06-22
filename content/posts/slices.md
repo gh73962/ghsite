@@ -9,11 +9,11 @@ tags:
 - append
 summary: Go 数组和切片是如何工作的，以及如何使用copy和append。
 ---
-## 英文原文
+## 原文
 
-作者: Rob Pike
+Author : Rob Pike
 
-原文地址: https://golang.google.cn/blog/slices
+Link : https://golang.google.cn/blog/slices
 
 ## 简介
 
@@ -703,7 +703,7 @@ Go 的一个弱点是任何泛型类型的操作都必须由运行时提供。 �
 它们提供了一个高效字符串处理的模型。
 一些基准测试结果相对之前的结果获得巨大提升。
 
-当然，还有更多关于字符串的东西可以讲，这有一个 [博文](https://blog.golang.org/strings) 可以更深入地介绍了它们。
+当然，还有更多关于字符串的东西可以讲，这有一个 [博文](https://golang.google.cn/blog/strings) 可以更深入地介绍了它们。
 
 ## 结论
 
@@ -718,7 +718,7 @@ Go 的一个弱点是任何泛型类型的操作都必须由运行时提供。 �
 
 关于 Go 中的 slices 的 intertubes 周围有很多东西可以找到。
 如前所述，["Slice Tricks" Wiki page](/wiki/SliceTricks)有很多例子。
-[Go Slices](https://blog.golang.org/go-slices-usage-and-internals) 博客文章用清晰的图表描述了内存布局的细节。
+[Go Slices](https://golang.google.cn/blog/go-slices-usage-and-internals) 博客文章用清晰的图表描述了内存布局的细节。
 Russ Cox 的 [Go Data Structures](https://research.swtch.com/godata) 文章讨论了切片以及 Go 的其他一些内部数据结构。
 
 虽然有这么多的材料，但了解切片的最佳方法还是是使用它们写代码。

@@ -97,7 +97,7 @@ dateFormat = "2006-01-02"
 title = "糊糊的香菇"
 # website description for RSS, SEO, Open Graph and Twitter Cards
 # 网站描述, 用于 RSS, SEO, Open Graph 和 Twitter Cards
-description = "-_-"
+description = "Go blog 翻译"
 # website images for Open Graph and Twitter Cards
 # 网站图片, 用于 Open Graph 和 Twitter Cards
 images = ["/logo.png"]
@@ -151,7 +151,7 @@ author = true
 since = 2022
 # ICP info only in China (HTML format is supported)
 # ICP 备案信息，仅在中国使用 (支持 HTML 格式)
-icp = ""
+icp = "<a href=\"https://beian.miit.gov.cn/\" target=\"_blank\">宁ICP备2022000861号</a>"
 # license info (HTML format is supported)
 # 许可协议信息 (支持 HTML 格式)
 license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
