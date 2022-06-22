@@ -22,8 +22,10 @@ Go团队最近[宣布](https://golang.google.cn/go-cloud)了一个开源项目[G
 它显式地为组件提供它们工作所需的所有依赖关系。
 在 Go 中，这通常采用将依赖项传递给构造函数的形式：
 
+```go
 	// NewUserStore returns a UserStore that uses cfg and db as dependencies.
 	func NewUserStore(cfg *Config, db *mysql.DB) (*UserStore, error) {...}
+```
 
 这种方式在小规模的场景上效果很好，
 但是大型应用可能会有更复杂的依赖关系图，
@@ -87,6 +89,7 @@ _提供者_ 是常规的 Go 函数, 它为它们的依赖"提供"值，
 这些值被简单地描述为函数的入参。
 下面这些简单示例有个三个提供者 :
 
+```go
 	// NewUserStore is the same function we saw above; it is a provider for UserStore,
 	// with dependencies on *Config and *mysql.DB.
 	func NewUserStore(cfg *Config, db *mysql.DB) (*UserStore, error) {...}
@@ -96,23 +99,28 @@ _提供者_ 是常规的 Go 函数, 它为它们的依赖"提供"值，
 
 	// NewDB is a provider for *mysql.DB based on some connection info.
 	func NewDB(info *ConnectionInfo) (*mysql.DB, error) {...}
+```
 
 那些常用的提供者可以成组归入`ProviderSets`。
 举个例子，在创建一个`*UserStore`时通常使用一个默认的`*Config`，
 所以我们我可以把`NewUserStore`和`NewDefaultConfig`合成一组,归入到`ProviderSet`:
 
+```go
 	var UserStoreSet = wire.ProviderSet(NewUserStore, NewDefaultConfig)
+```
 
 _注入者_ 是被生成出来的函数，是在依赖顺序中用来调用提供者。
 你要编写注入者的函数签名，包括所有你需要的入参，
 构建最终结果需要使用提供者集合或提供者列表插入对`wire.Build`的调用：
 
+```go
 	func initUserStore() (*UserStore, error) {
 		// We're going to get an error, because NewDB requires a *ConnectionInfo
 		// and we didn't provide one.
 		wire.Build(UserStoreSet, NewDB)
 		return nil, nil  // These return values are ignored.
 	}
+```
 
 现在我们运行go generate来执行Wire:
 
@@ -125,10 +133,12 @@ Wire 会帮助性的告诉我们所涉及的行号和类型。
 我们可以为它添加一个提供者到`wire.Build`，
 或将其添加为参数：
 
+```go
 	func initUserStore(info ConnectionInfo) (*UserStore, error) {
 		wire.Build(UserStoreSet, NewDB)
 		return nil, nil  // These return values are ignored.
 	}
+```
 
 现在 `go generate` 将使用生成的代码创建一个新文件：
 
@@ -137,6 +147,7 @@ Wire 会帮助性的告诉我们所涉及的行号和类型。
 	//go:generate wire
 	//+build !wireinject
 
+```go
 	func initUserStore(info ConnectionInfo) (*UserStore, error) {
 		defaultConfig := NewDefaultConfig()
 		db, err := NewDB(info)
@@ -149,6 +160,7 @@ Wire 会帮助性的告诉我们所涉及的行号和类型。
 		}
 		return userStore, nil
 	}
+```
 
 任何非注入器声明都会被复制到生成的文件中。
 运行时并不会依赖 Wire：
