@@ -96,7 +96,7 @@ _提供者_ 是常规的 Go 函数， 它为它们的依赖"提供"值，
 
 ```go
 	// NewUserStore 和我们前面看到的那个函数一样; 它是UserStore的提供者,
-	//它的依赖项是 *Config 和 *mysql.DB。
+	// 它的依赖项是 *Config 和 *mysql.DB。
 	func NewUserStore(cfg *Config, db *mysql.DB) (*UserStore, error) {...}
 
 	// NewDefaultConfig 是一个提供者，它提供 *Config，无依赖。
