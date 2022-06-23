@@ -27,7 +27,7 @@ Go团队最近[宣布](https://golang.google.cn/go-cloud)了一个开源项目[G
 在 Go 中，通常采用将依赖项传递给构造函数的形式：
 
 ```go
-	// NewUserStore 返回一个 UserStore , 它将 cfg 和 db 作为依赖
+	// NewUserStore 返回一个 UserStore , 它将 cfg 和 db 作为依赖项
 	func NewUserStore(cfg *Config, db *mysql.DB) (*UserStore, error) {...}
 ```
 
