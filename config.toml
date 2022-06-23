@@ -39,7 +39,7 @@ copyright = ""
 enableRobotsTXT = true
 # whether to use git commit log
 # 是否使用 git 信息
-enableGitInfo = true
+enableGitInfo = false
 # whether to use emoji code
 # 是否使用 emoji 代码
 enableEmoji = true
@@ -789,14 +789,14 @@ post = ""
 name = "标签"
 url = "/tags/"
 title = ""
-[[languages.zh-cn.menu.main]]
-weight = 3
-identifier = "categories"
-pre = ""
-post = ""
-name = "分类"
-url = "/categories/"
-title = ""
+# [[languages.zh-cn.menu.main]]
+# weight = 3
+# identifier = "categories"
+# pre = ""
+# post = ""
+# name = "分类"
+# url = "/categories/"
+# title = ""
 # [[languages.zh-cn.menu.main]]
 # weight = 4
 # identifier = "documentation"
