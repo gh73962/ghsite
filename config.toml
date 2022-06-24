@@ -1,4 +1,4 @@
-baseURL = "//110.42.244.121/blog/"
+baseURL = "//me262.top"
 relativeURLs = true
 canonifyURLs = true
 
@@ -59,7 +59,7 @@ weight = 1
 identifier = "posts"
 # you can add extra information before the name (HTML format is supported), such as icons
 # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标
-pre = ""
+pre = '<meta name="google-site-verification" content="n0eITGHYb8floADxFFXnLYAk72Jay4xxc8cOarXNtpA" />'
 # you can add extra information after the name (HTML format is supported), such as icons
 # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
 post = ""
