@@ -119,10 +119,11 @@ mobileMode = "auto"
 logo = ""
 # title name
 # 标题名称
-name = "LoveIt"
+name = "糊糊的香菇"
 # you can add extra information before the name (HTML format is supported), such as icons
 # 你可以在名称 (允许 HTML 格式) 之前添加其他信息, 例如图标
-pre = "<i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i>"
+# pre = "<i class='far fa-kiss-wink-heart fa-fw' aria-hidden='true'></i>"
+pre = "<i class='fa-solid fa-seedling' aria-hidden='true'></i>"
 # you can add extra information after the name (HTML format is supported), such as icons
 # 你可以在名称 (允许 HTML 格式) 之后添加其他信息, 例如图标
 post = ""
@@ -588,7 +589,7 @@ images = []
 # Publisher info
 # 出版者信息
 [params.page.seo.publisher]
-name = "xxxx"
+name = "GuoHui"
 logoUrl = "/images/avatar.png"
 
 # TypeIt config

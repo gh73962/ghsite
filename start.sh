@@ -1,1 +1,1 @@
-nohup hugo server --disableFastRender -e production > ./nohup.out 2>&1 &
+nohup hugo server --disableFastRender -e production -b https://me262.top --appendPort=false > ./nohup.out 2>&1 &
