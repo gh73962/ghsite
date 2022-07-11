@@ -7,13 +7,18 @@ summary: A technical talk about the structure and details of the new, low-latenc
 ---
 
 
+## 原文
+Author : Rick Hudson
+
+Link : https://golang.google.cn/blog/ismmkeynote
+
 This is the transcript from the keynote I gave at the International Symposium
 on Memory Management (ISMM) on June 18, 2018.
 For the past 25 years ISMM has been the premier venue for publishing memory
 management and garbage collection papers and it was an honor to have been
 invited to give the keynote.
 
-## Abstract
+## 摘要
 
 The Go language features, goals, and use cases have forced us to rethink
 the entire garbage collection stack and have led us to a surprising place.
@@ -23,7 +28,7 @@ Included are side hikes into dead end box canyons where numbers guided us home.
 This talk will provide insight into the how and the why of our journey,
 where we are in 2018, and Go's preparation for the next part of the journey.
 
-## Bio
+## 作者简介
 
 Richard L. Hudson (Rick) is best known for his work in memory management
 including the invention of the Train,
@@ -38,7 +43,7 @@ Comments: See [the discussion on golang-dev](https://groups.google.com/forum/#!t
 
 ## The Transcript
 
-{{image "ismmkeynote/image63.png"}}
+{{< image src="/images/ismmkeynote/image63.png" >}}
 
 Rick Hudson here.
 
@@ -46,7 +51,7 @@ This is a talk about the Go runtime and in particular the garbage collector.
 I have about 45 or 50 minutes of prepared material and after that we will
 have time for discussion and I'll be around so feel free to come up afterwards.
 
-{{image "ismmkeynote/image24.png"}}
+{{< image src="/images/ismmkeynote/image24.png" >}}
 
 Before I get started I want to acknowledge some people.
 
@@ -62,11 +67,11 @@ And finally I want to acknowledge Renee French for all these nice Gophers
 that she has been producing over the years.
 You will see several of them throughout the talk.
 
-{{image "ismmkeynote/image38.png"}}
+{{< image src="/images/ismmkeynote/image38.png" >}}
 
 Before we get revved up and going on this stuff we really have to show what GC's view of Go looks like.
 
-{{image "ismmkeynote/image32.png"}}
+{{< image src="/images/ismmkeynote/image32.png" >}}
 
 Well first of all Go programs have hundreds of thousands of stacks.
 They are managed by the Go scheduler and are always preempted at GC safepoints.
@@ -75,7 +80,7 @@ run with one OS thread per HW thread.
 We manage the stacks and their size by copying them and updating pointers in the stack.
 It's a local operation so it scales fairly well.
 
-{{image "ismmkeynote/image22.png"}}
+{{< image src="/images/ismmkeynote/image22.png" >}}
 
 The next thing that is important is the fact that Go is a value-oriented
 language in the tradition of C-like systems languages rather than reference-oriented
@@ -95,12 +100,12 @@ This one design decision has led to some of the more amazing things that
 have to go on with the runtime.
 It is probably the most important thing that differentiates Go from other GCed languages.
 
-{{image "ismmkeynote/image60.png"}}
+{{< image src="/images/ismmkeynote/image60.png" >}}
 
 Of course Go can have pointers and in fact they can have interior pointers.
 Such pointers keep the entire value live and they are fairly common.
 
-{{image "ismmkeynote/image29.png"}}
+{{< image src="/images/ismmkeynote/image29.png" >}}
 
 We also have a way ahead of time compilation system so the binary contains the entire runtime.
 
@@ -112,7 +117,7 @@ On the sad side of it we don't have the chance to do feedback optimizations as y
 
 So there are pluses and minuses.
 
-{{image "ismmkeynote/image13.png"}}
+{{< image src="/images/ismmkeynote/image13.png" >}}
 
 Go comes with two knobs to control the GC.
 The first one is GCPercent. Basically this is a knob that adjusts how much
@@ -135,11 +140,11 @@ runtime can size the heap up to the MaxHeap.
 
 This wraps up our discussion on the pieces of Go that are important to the garbage collector.
 
-{{image "ismmkeynote/image3.png"}}
+{{< image src="/images/ismmkeynote/image3.png" >}}
 
 So now let's talk about the Go runtime and how did we get here, how we got to where we are.
 
-{{image "ismmkeynote/image59.png"}}
+{{< image src="/images/ismmkeynote/image59.png" >}}
 
 So it's 2014. If Go does not solve this GC latency problem somehow then
 Go isn't going to be successful. That was clear.
@@ -150,7 +155,7 @@ the path that Go took.
 
 Why is latency so important?
 
-{{image "ismmkeynote/image7.png"}}
+{{< image src="/images/ismmkeynote/image7.png" >}}
 
 The math is completely unforgiving on this.
 
@@ -175,7 +180,7 @@ for Google going forward and trying to scale at Google scale.
 
 We call this problem the tyranny of the 9s.
 
-{{image "ismmkeynote/image36.png"}}
+{{< image src="/images/ismmkeynote/image36.png" >}}
 
 So how do you fight the tyranny of the 9s?
 
@@ -192,7 +197,7 @@ All these are workarounds come from very clever people with very real problems
 but they didn't tackle the root problem of GC latency.
 At Google scale we had to tackle the root problem. Why?
 
-{{image "ismmkeynote/image48.png"}}
+{{< image src="/images/ismmkeynote/image48.png" >}}
 
 Redundancy wasn't going to scale, redundancy costs a lot. It costs new server farms.
 
@@ -201,7 +206,7 @@ the server ecosystem and in the process save some of the endangered corn
 fields and give some kernel of corn the chance to be knee high by the fourth
 of July and reach its full potential.
 
-{{image "ismmkeynote/image56.png"}}
+{{< image src="/images/ismmkeynote/image56.png" >}}
 
 So here is the 2014 SLO. Yes, it was true that I was sandbagging,
 I was new on the team, it was a new process to me,
@@ -209,7 +214,7 @@ and I didn't want to over promise.
 
 Furthermore presentations about GC latency in other languages were just plain scary.
 
-{{image "ismmkeynote/image67.png"}}
+{{< image src="/images/ismmkeynote/image67.png" >}}
 
 The original plan was to do a read barrier free concurrent copying GC.
 That was the long term plan. There was a lot of uncertainty about the overhead
@@ -227,7 +232,7 @@ that we could eat up by making the GC concurrent.
 But that was it. We couldn't slow down Go programs.
 That would have been untenable in 2014.
 
-{{image "ismmkeynote/image28.png"}}
+{{< image src="/images/ismmkeynote/image28.png" >}}
 
 So we backed off a bit. We weren't going to do the copying part.
 
@@ -243,7 +248,7 @@ If we kept the write barrier turned off most of the time the compiler optimizati
 would be minimally impacted and the compiler team could move forward rapidly.
 Go also desperately needed short term success in 2015.
 
-{{image "ismmkeynote/image55.png"}}
+{{< image src="/images/ismmkeynote/image55.png" >}}
 
 So let's look at some of the things we did.
 
@@ -273,7 +278,7 @@ tail of bugs you might encounter if you had a moving collector as you attempt
 to pin objects and put levels of indirection between C and the Go object
 you are working with.
 
-{{image "ismmkeynote/image5.png"}}
+{{< image src="/images/ismmkeynote/image5.png" >}}
 
 The next design choice was where to put the object's metadata.
 We needed to have some information about the objects since we didn't have headers.
@@ -286,7 +291,7 @@ We also had an extra bit encoding that we could use as an extra mark bit
 or to do other debugging things.
 This was really valuable for getting this stuff running and finding bugs.
 
-{{image "ismmkeynote/image19.png"}}
+{{< image src="/images/ismmkeynote/image19.png" >}}
 
 So what about write barriers? The write barrier is on only during the GC.
 At other times the compiled code loads a global variable and looks at it.
@@ -296,7 +301,7 @@ When we are inside the GC that variable is different,
 and the write barrier is responsible for ensuring that no reachable objects
 get lost during the tri-color operations.
 
-{{image "ismmkeynote/image50.png"}}
+{{< image src="/images/ismmkeynote/image50.png" >}}
 
 The other piece of this code is the GC Pacer.
 It is some of the great work that Austin did.
@@ -326,12 +331,12 @@ If you have any suggestions let us know.
 [\*Go 1.5 concurrent garbage collector pacing](/s/go15gcpacing)
 and [Proposal: Separate soft and hard heap size goal](https://github.com/golang/proposal/blob/master/design/14951-soft-heap-limit.md)
 
-{{image "ismmkeynote/image40.png"}}
+{{< image src="/images/ismmkeynote/image40.png" >}}
 
 Yes, so we had successes, lots of them. A younger crazier Rick would have
 taken some of these graphs and tattooed them on my shoulder I was so proud of them.
 
-{{image "ismmkeynote/image20.png"}}
+{{< image src="/images/ismmkeynote/image20.png" >}}
 
 This is a series of graphs that was done for a production server at Twitter.
 We of course had nothing to do with that production server.
@@ -347,13 +352,13 @@ This was good, order of magnitude good.
 
 We are going to change the Y-axis here radically from 0 to 400 milliseconds down to 0 to 50 milliseconds.
 
-{{image "ismmkeynote/image54.png"}}
+{{< image src="/images/ismmkeynote/image54.png" >}}
 
 This is 6 months later. The improvement was largely due to systematically
 eliminating all the O(heap) things we were doing during the stop the world time.
 This was our second order of magnitude improvement as we went from 40 milliseconds down to 4 or 5.
 
-{{image "ismmkeynote/image1.png"}}
+{{< image src="/images/ismmkeynote/image1.png" >}}
 
 There were some bugs in there that we had to clean up and we did this during
 a minor release 1.6.3.
@@ -361,7 +366,7 @@ This dropped latency down to well under 10 milliseconds, which was our SLO.
 
 We are about to change our Y-axis again, this time down to 0 to 5 milliseconds.
 
-{{image "ismmkeynote/image68.png"}}
+{{< image src="/images/ismmkeynote/image68.png" >}}
 
 So here we are, this is August of 2016, a year after the first release.
 Again we kept knocking off these O(heap size) stop the world processes.
@@ -370,7 +375,7 @@ We had much larger heaps and as we knocked off these O(heap size) stop the world
 the size of the heap could obviously grow considerable without impacting latency.
 So this was a bit of a help in 1.7.
 
-{{image "ismmkeynote/image58.png"}}
+{{< image src="/images/ismmkeynote/image58.png" >}}
 
 The next release was in March of 2017. We had the last of our large latency
 drops which was due to figuring out how to avoid the stop the world stack
@@ -379,7 +384,7 @@ That dropped us into the sub-millisecond range.
 Again the Y axis is about to change to 1.5 milliseconds and we see our third
 order of magnitude improvement.
 
-{{image "ismmkeynote/image45.png"}}
+{{< image src="/images/ismmkeynote/image45.png" >}}
 
 The August 2017 release saw little improvement.
 We know what is causing the remaining pauses.
@@ -394,7 +399,7 @@ you just have to be faster than the guy next to you."
 
 There was no substantial change in the Feb'18 1.10 release just some clean-up and chasing corner cases.
 
-{{image "ismmkeynote/image6.png"}}
+{{< image src="/images/ismmkeynote/image6.png" >}}
 
 So a new year and a new SLO This is our 2018 SLO.
 
@@ -411,17 +416,17 @@ The Pacer had gotten much better so we looked to see minimal GC assists in a ste
 We were pretty happy with this. Again this is not an SLA but an SLO so it's an objective,
 not an agreement, since we can't control such things as the OS.
 
-{{image "ismmkeynote/image64.png"}}
+{{< image src="/images/ismmkeynote/image64.png" >}}
 
 That's the good stuff. Let's shift and start talking about our failures.
 These are our scars; they are sort of like tattoos and everyone gets them.
 Anyway they come with better stories so let's do some of those stories.
 
-{{image "ismmkeynote/image46.png"}}
+{{< image src="/images/ismmkeynote/image46.png" >}}
 
 Our first attempt was to do something called the request oriented collector or ROC. The hypothesis can be seen here.
 
-{{image "ismmkeynote/image34.png"}}
+{{< image src="/images/ismmkeynote/image34.png" >}}
 
 So what does this mean?
 
@@ -431,23 +436,23 @@ They share some stuff such as the two blue objects there in the middle.
 They have their own private stacks and their own selection of private objects.
 Say the guy on the left wants to share the green object.
 
-{{image "ismmkeynote/image9.png"}}
+{{< image src="/images/ismmkeynote/image9.png" >}}
 
 The goroutine puts it in the shared area so the other Goroutine can access it.
 They can hook it to something in the shared heap or assign it to a global
 variable and the other Goroutine can see it.
 
-{{image "ismmkeynote/image26.png"}}
+{{< image src="/images/ismmkeynote/image26.png" >}}
 
 Finally the Goroutine on the left goes to its death bed, it's about to die, sad.
 
-{{image "ismmkeynote/image14.png"}}
+{{< image src="/images/ismmkeynote/image14.png" >}}
 
 As you know you can't take your objects with you when you die.
 You can't take your stack either. The stack is actually empty at this time
 and the objects are unreachable so you can simply reclaim them.
 
-{{image "ismmkeynote/image2.png"}}
+{{< image src="/images/ismmkeynote/image2.png" >}}
 
 The important thing here is that all actions were local and did not require
 any global synchronization.
@@ -455,7 +460,7 @@ This is fundamentally different than approaches like a generational GC,
 and the hope was that the scaling we would get from not having to do that
 synchronization would be sufficient for us to have a win.
 
-{{image "ismmkeynote/image27.png"}}
+{{< image src="/images/ismmkeynote/image27.png" >}}
 
 The other issue that was going on with this system was that the write barrier was always on.
 Whenever there was a write, we would have to see if it was writing a pointer
@@ -464,7 +469,7 @@ If so, we would have to make the referent object public and then do a transitive
 walk of reachable objects making sure they were also public.
 That was a pretty expensive write barrier that could cause many cache misses.
 
-{{image "ismmkeynote/image30.png"}}
+{{< image src="/images/ismmkeynote/image30.png" >}}
 
 That said, wow, we had some pretty good successes.
 
@@ -477,7 +482,7 @@ As you can see if you have ROC on and not a lot of sharing,
 things actually scale quite nicely.
 If you don't have ROC on it wasn't nearly as good.
 
-{{image "ismmkeynote/image35.png"}}
+{{< image src="/images/ismmkeynote/image35.png" >}}
 
 But that wasn't good enough, we also had to make sure that ROC didn't slow
 down other pieces of the system.
@@ -488,7 +493,7 @@ We were seeing 30, 40, 50% and more slowdowns and that was unacceptable.
 Go is proud of how fast its compiler is so we couldn't slow the compiler down,
 certainly not this much.
 
-{{image "ismmkeynote/image61.png"}}
+{{< image src="/images/ismmkeynote/image61.png" >}}
 
 We then went and looked at some other programs.
 These are our performance benchmarks. We have a corpus of 200 or 300 benchmarks
@@ -497,7 +502,7 @@ them to work on and improve.
 These weren't selected by the GC folks at all.
 The numbers were uniformly bad and ROC wasn't going to become a winner.
 
-{{image "ismmkeynote/image44.png"}}
+{{< image src="/images/ismmkeynote/image44.png" >}}
 
 It's true we scaled but we only had 4 to 12 hardware thread system so we
 couldn't overcome the write barrier tax.
@@ -506,19 +511,19 @@ the scaling properties of ROC might be a win.
 When that happens we might come back and revisit this,
 but for now ROC was a losing proposition.
 
-{{image "ismmkeynote/image66.png"}}
+{{< image src="/images/ismmkeynote/image66.png" >}}
 
 So what were we going to do next? Let's try the generational GC.
 It's an oldie but a goodie. ROC didn't work so let's go back to stuff we
 have a lot more experience with.
 
-{{image "ismmkeynote/image41.png"}}
+{{< image src="/images/ismmkeynote/image41.png" >}}
 
 We weren't going to give up our latency, we weren't going to give up the
 fact that we were non-moving.
 So we needed a non-moving generational GC.
 
-{{image "ismmkeynote/image27.png"}}
+{{< image src="/images/ismmkeynote/image27.png" >}}
 
 So could we do this? Yes, but with a generational GC,
 the write barrier is always on.
@@ -526,38 +531,38 @@ When the GC cycle is running we use the same write barrier we use today,
 but when GC is off we use a fast GC write barrier that buffers the pointers
 and then flushes the buffer to a card mark table when it overflows.
 
-{{image "ismmkeynote/image4.png"}}
+{{< image src="/images/ismmkeynote/image4.png" >}}
 
 So how is this going to work in a non-moving situation? Here is the mark / allocation map.
 Basically you maintain a current pointer.
 When you are allocating you look for the next zero and when you find that
 zero you allocate an object in that space.
 
-{{image "ismmkeynote/image51.png"}}
+{{< image src="/images/ismmkeynote/image51.png" >}}
 
 You then update the current pointer to the next 0.
 
-{{image "ismmkeynote/image17.png"}}
+{{< image src="/images/ismmkeynote/image17.png" >}}
 
 You continue until at some point it is time to do a generation GC.
 You will notice that if there is a one in the mark/allocation vector then
 that object was alive at the last GC so it is mature.
 If it is zero and you reach it then you know it is young.
 
-{{image "ismmkeynote/image53.png"}}
+{{< image src="/images/ismmkeynote/image53.png" >}}
 
 So how do you do promoting. If you find something marked with a 1 pointing
 to something marked with a 0 then you promote the referent simply by setting that zero to a one.
 
-{{image "ismmkeynote/image49.png"}}
+{{< image src="/images/ismmkeynote/image49.png" >}}
 
 You have to do a transitive walk to make sure all reachable objects are promoted.
 
-{{image "ismmkeynote/image69.png"}}
+{{< image src="/images/ismmkeynote/image69.png" >}}
 
 When all reachable objects have been promoted the minor GC terminates.
 
-{{image "ismmkeynote/image62.png"}}
+{{< image src="/images/ismmkeynote/image62.png" >}}
 
 Finally, to finish your generational GC cycle you simply set the current
 pointer back to the start of the vector and you can continue.
@@ -565,16 +570,16 @@ All the zeros weren't reached during that GC cycle so are free and can be reused
 As many of you know this is called 'sticky bits' and was invented by Hans
 Boehm and his colleagues.
 
-{{image "ismmkeynote/image21.png"}}
+{{< image src="/images/ismmkeynote/image21.png" >}}
 
 So what did the performance look like? It wasn't bad for the large heaps.
 These were the benchmarks that the GC should do well on. This was all good.
 
-{{image "ismmkeynote/image65.png"}}
+{{< image src="/images/ismmkeynote/image65.png" >}}
 
 We then ran it on our performance benchmarks and things didn't go as well. So what was going on?
 
-{{image "ismmkeynote/image43.png"}}
+{{< image src="/images/ismmkeynote/image43.png" >}}
 
 The write barrier was fast but it simply wasn't fast enough.
 Furthermore it was hard to optimize for. For example,
@@ -583,7 +588,7 @@ when the object was allocated and the next safepoint.
 But we were having to move to a system where we have a GC safepoint at every
 instruction so there really wasn't any write barrier that we could elide going forward.
 
-{{image "ismmkeynote/image47.png"}}
+{{< image src="/images/ismmkeynote/image47.png" >}}
 
 We also had escape analysis and it was getting better and better.
 Remember the value-oriented stuff we were talking about? Instead of passing
@@ -598,7 +603,7 @@ it's just that the young objects live and die young on the stack.
 The result is that generational collection is much less effective than you
 might find in other managed runtime languages.
 
-{{image "ismmkeynote/image10.png"}}
+{{< image src="/images/ismmkeynote/image10.png" >}}
 
 So these forces against the write barrier were starting to gather.
 Today, our compiler is much better than it was in 2014.
@@ -614,7 +619,7 @@ Arrays and maps hold values and not pointers to structs. Everything is good.
 
 But that's not the main compelling reason why write barriers in Go have an uphill fight going forward.
 
-{{image "ismmkeynote/image8.png"}}
+{{< image src="/images/ismmkeynote/image8.png" >}}
 
 Let's look at this graph. It's just an analytical graph of mark costs.
 Each line represents a different application that might have a mark cost.
@@ -626,7 +631,7 @@ The cumulative cost of the mark phase drops considerably since GC cycles are les
 The write barrier costs are constant so the cost of increasing the heap
 size will drive that marking cost underneath the cost of the write barrier.
 
-{{image "ismmkeynote/image39.png"}}
+{{< image src="/images/ismmkeynote/image39.png" >}}
 
 Here is a more common cost for a write barrier,
 which is 4%, and we see that even with that we can drive the cost of the
@@ -640,7 +645,7 @@ it greatly reduces the long STW times of full GC cycles but it doesn't necessari
 Go doesn't have this stop the world problem so it had to look more closely
 at the throughput problems and that is what we did.
 
-{{image "ismmkeynote/image23.png"}}
+{{< image src="/images/ismmkeynote/image23.png" >}}
 
 That's a lot of failure and with such failure comes food and lunch.
 I'm doing my usual whining "Gee wouldn't this be great if it wasn't for the write barrier."
@@ -657,7 +662,7 @@ So the moral of the story is simply to use the HW we have.
 
 Anyway that got us talking, what about something crazy?
 
-{{image "ismmkeynote/image25.png"}}
+{{< image src="/images/ismmkeynote/image25.png" >}}
 
 What about card marking without a write barrier? It turns out that Austin
 has these files and he writes into these files all of his crazy ideas that
@@ -672,7 +677,7 @@ If pointers are written into a card, the hash will change and the card will
 be considered marked.
 This would trade the cost of write barrier off for cost of hashing.
 
-{{image "ismmkeynote/image31.png"}}
+{{< image src="/images/ismmkeynote/image31.png" >}}
 
 But more importantly it's hardware aligned.
 
@@ -690,11 +695,11 @@ Anyway we have 50 years, 60 years of designing hardware to run Fortran,
 to run C, and to run the SPECint benchmarks.
 It's no surprise that the result is hardware that runs this kind of stuff fast.
 
-{{image "ismmkeynote/image12.png"}}
+{{< image src="/images/ismmkeynote/image12.png" >}}
 
 We took the measurement. This is pretty good. This is the benchmark suite for large heaps which should be good.
 
-{{image "ismmkeynote/image18.png"}}
+{{< image src="/images/ismmkeynote/image18.png" >}}
 
 We then said what does it look like for the performance benchmark? Not so good,
 a couple of outliers.
@@ -709,11 +714,11 @@ to the right and do not benefit from generational GC.
 But is this going to win going forward? We have to know or at least think
 about what hardware is going to look like going forward.
 
-{{image "ismmkeynote/image52.png"}}
+{{< image src="/images/ismmkeynote/image52.png" >}}
 
 What are the memories of the future?
 
-{{image "ismmkeynote/image11.png"}}
+{{< image src="/images/ismmkeynote/image11.png" >}}
 
 Let's take a look at this graph. This is your classic Moore's law graph.
 You have a log scale on the Y axis showing the number of transistors in a single chip.
@@ -742,7 +747,7 @@ Put another way, we think that doubling memory is going to be a better value tha
 [Original graph](http://www.kurzweilai.net/ask-ray-the-future-of-moores-law)
 at www.kurzweilai.net/ask-ray-the-future-of-moores-law.
 
-{{image "ismmkeynote/image57.png"}}
+{{< image src="/images/ismmkeynote/image57.png" >}}
 
 Let's look at another graph focused on DRAM.
 These are numbers from a recent PhD thesis from CMU.
@@ -774,7 +779,7 @@ See [Kevin K. Chang's thesis.](http://repository.cmu.edu/cgi/viewcontent.cgi?art
 The original graph in the introduction was not in a form that I could draw
 a Moore's law line on it easily so I changed the X-axis to be more uniform.)
 
-{{image "ismmkeynote/image15.png"}}
+{{< image src="/images/ismmkeynote/image15.png" >}}
 
 Let's go to where the rubber meets the road.
 This is actual DRAM pricing and it has generally declined from 2005 to 2016.
@@ -798,7 +803,7 @@ Long term, it is our belief that memory pricing will drop at a rate that is much
 
 (Sources [https://hblok.net/blog/](https://hblok.net/blog/) and [https://hblok.net/storage\_data/storage\_memory\_prices\_2005-2017-12.png](https://hblok.net/storage_data/storage_memory_prices_2005-2017-12.png))
 
-{{image "ismmkeynote/image37.png"}}
+{{< image src="/images/ismmkeynote/image37.png" >}}
 
 Let's look at this other line. Gee it would be nice if we were on this line.
 This is the SSD line. It is doing a better job of keeping prices low.
@@ -817,11 +822,11 @@ the competition will be fierce and heap memory will move closer to the highlight
 
 All of this reinforces our decision to avoid always-on barriers in favor of increasing memory.
 
-{{image "ismmkeynote/image16.png"}}
+{{< image src="/images/ismmkeynote/image16.png" >}}
 
 So what does all this mean for Go going forward?
 
-{{image "ismmkeynote/image42.png"}}
+{{< image src="/images/ismmkeynote/image42.png" >}}
 
 We intend to make the runtime more flexible and robust as we look at corner
 cases that come in from our users.
@@ -845,7 +850,7 @@ favor RAM over CPU certainly for the next 5 years and hopefully for the next dec
 
 So that's it. Thank you.
 
-{{image "ismmkeynote/image33.png"}}
+{{< image src="/images/ismmkeynote/image33.png" >}}
 
 P.S. The Go team is looking to hire engineers to help develop and maintain the Go runtime and compiler toolchain.
 
